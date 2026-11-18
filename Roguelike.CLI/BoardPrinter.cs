@@ -1,11 +1,13 @@
-﻿using Roguelike.Core;
+﻿using System.Text;
+using Roguelike.Core;
 
 namespace Roguelike.CLI;
 
 public class BoardPrinter : IBoardPrinter
 {
-    public void Print(Cell[,] board)
+    public void Print(Cell[,] board, Player player)
     {
+        Console.OutputEncoding = Encoding.UTF8;
         Console.Clear();
 
         for (var row = 0; row < board.GetLength(0); row++)
@@ -22,8 +24,9 @@ public class BoardPrinter : IBoardPrinter
     private static string ChooseSymbol(Cell cell) =>
         cell switch
         {
-            Cell.Wall => " ＃ ",
-            Cell.Floor => " ・ ",
+            Cell.Wall => "＃",
+            Cell.Floor => "・",
+            Cell.Player => "忍",
             _ => "？",
         };
 }

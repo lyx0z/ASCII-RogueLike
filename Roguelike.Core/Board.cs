@@ -2,7 +2,7 @@
 
 public class Board
 {
-    public const int Size = 16;
+    private const int Size = 16;
 
     public Cell[,] board = new Cell[Size, Size];
 
