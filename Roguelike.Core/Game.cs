@@ -4,7 +4,7 @@ public class Game(IBoardPrinter boardPrinter)
 {
     public void Start()
     {
-        var boardc = new Board();
-        boardPrinter.Print(boardc.board);
+        var board = new Board();
+        boardPrinter.Print(board.board);
     }
 }
