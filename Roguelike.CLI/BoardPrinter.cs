@@ -14,11 +14,13 @@ public class BoardPrinter : IBoardPrinter
         {
             for (var col = 0; col < board.GetLength(1); col++)
             {
-                if (player.Position.Row == row && player.Position.Col == col)
+                var isHere = new Position(row, col);
+
+                if (player.Position == isHere)
                 {
                     Console.Write(ChooseSymbol(Cell.Player));
                 }
-                else if (enemy.Position.Row == row && enemy.Position.Col == col)
+                else if (enemy.Position == isHere && !enemy.IsDead())
                 {
                     Console.Write(ChooseSymbol(enemy.Name));
                 }
@@ -38,7 +40,7 @@ public class BoardPrinter : IBoardPrinter
             Cell.Wall => "＃",
             Cell.Floor => "・",
             Cell.Player => "忍",
-            Cell.Goblin => "Ｇ",
+            Cell.Yurei => "Ｙ",
             _ => "？",
         };
 }
