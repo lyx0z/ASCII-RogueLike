@@ -2,7 +2,7 @@
 
 public class Game(IBoardPrinter boardPrinter, IInputReader inputReader)
 {
-    public Player player = new(new Position(8, 8));
+    private Player player = new(new Position(8, 8));
     private Board board = new();
     private Direction direction;
 
@@ -16,7 +16,7 @@ public class Game(IBoardPrinter boardPrinter, IInputReader inputReader)
             var nextPosition = player.NextPos(direction);
             if (board.board[nextPosition.Row, nextPosition.Col] != Cell.Wall)
             {
-                player.MoveTo(nextPosition);
+                player.MoveTo(direction);
             }
         }
     }
