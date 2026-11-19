@@ -32,6 +32,7 @@ public class BoardPrinter : IBoardPrinter
 
             Console.WriteLine();
         }
+        PrintStats(player);
     }
 
     private static string ChooseSymbol(Cell cell) =>
@@ -43,4 +44,18 @@ public class BoardPrinter : IBoardPrinter
             Cell.Yurei => "Ｙ",
             _ => "？",
         };
+
+    private static void PrintStats(Player player)
+    {
+        Console.WriteLine(
+            $"""
+            ╔══════════════════════════════╗
+            ║ STATS                        ║
+            ╟──────────────────────────────╢
+            ║ HP     {player.Hp, -22}║
+            ║ Attack {player.Attack, -22}║
+            ╚══════════════════════════════╝
+            """
+        );
+    }
 }
