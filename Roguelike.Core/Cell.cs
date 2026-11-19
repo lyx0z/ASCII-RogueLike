@@ -4,4 +4,6 @@ public enum Cell
 {
     Wall,
     Floor,
+    Player,
+    Goblin,
 }
