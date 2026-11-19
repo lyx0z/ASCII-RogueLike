@@ -13,7 +13,11 @@ public class Game(IBoardPrinter boardPrinter, IInputReader inputReader)
             boardPrinter.Print(board.board, player);
 
             direction = inputReader.ReadDirection(direction);
-            player.MoveTo(player.NextPos(direction));
+            var nextPosition = player.NextPos(direction);
+            if (board.board[nextPosition.Row, nextPosition.Col] != Cell.Wall)
+            {
+                player.MoveTo(nextPosition);
+            }
         }
     }
 }
