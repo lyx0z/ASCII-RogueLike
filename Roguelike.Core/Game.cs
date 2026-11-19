@@ -8,19 +8,26 @@ public class Game
     private readonly Board board = new();
     private readonly Enemy yurei;
     private Direction direction;
+    private bool running = true;
 
     public Game(IBoardPrinter boardPrinter, IInputReader inputReader)
     {
         this.boardPrinter = boardPrinter;
         this.inputReader = inputReader;
-        yurei = new Enemy(Cell.Yurei, board.PickFreeCell(), 11, 3);
+        yurei = new Enemy(Cell.Yurei, board.PickFreeCell(), 11, 50); //high attack to test death
     }
 
     public void Start()
     {
-        while (true)
+        while (running)
         {
             boardPrinter.Print(board.board, player, yurei);
+
+            if (player.Hp <= 0)
+            {
+                GameOver();
+                continue;
+            }
 
             direction = inputReader.ReadDirection(direction);
             var nextPosition = player.NextPos(direction);
@@ -34,6 +41,16 @@ public class Game
             {
                 player.MoveTo(direction);
             }
+        }
+    }
+
+    private void GameOver()
+    {
+        running = false;
+        boardPrinter.PrintGameOver();
+        if (inputReader.ReadKeyGameOver())
+        {
+            Start();
         }
     }
 }

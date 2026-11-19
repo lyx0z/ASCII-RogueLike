@@ -9,6 +9,7 @@ public class BoardPrinter : IBoardPrinter
     {
         Console.OutputEncoding = Encoding.UTF8;
         Console.Clear();
+        Console.ForegroundColor = ConsoleColor.White;
 
         for (var row = 0; row < board.GetLength(0); row++)
         {
@@ -18,7 +19,9 @@ public class BoardPrinter : IBoardPrinter
 
                 if (player.Position == isHere)
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write(ChooseSymbol(Cell.Player));
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 else if (enemy.Position == isHere && !enemy.IsDead())
                 {
@@ -57,5 +60,37 @@ public class BoardPrinter : IBoardPrinter
             ╚══════════════════════════════╝
             """
         );
+    }
+
+    public void PrintGameOver()
+    {
+        var gameOverText = """
+            ████████████████████████████
+                  ████
+                 ████            ████
+                ███████████      ████     ▄██
+               ████     ████     ████  ▄███▀
+              ████  ▄   ████     ████▄███▀
+             ████  ▀██▄████      ██████▀
+            ███▀     █████       ████
+                    ████         ████        ██
+                   ████          ████        ██
+                 ▄████           ██████████████
+               ▄███▀
+
+                  D   E   A   T   H
+            """;
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        for (var i = 0; i < 4; i++)
+        {
+            Console.Clear();
+            Console.WriteLine(gameOverText);
+            Thread.Sleep(400);
+
+            Console.Clear();
+            Thread.Sleep(200);
+        }
+        Console.WriteLine(gameOverText);
+        Console.WriteLine("   Press SPACE to continue");
     }
 }
