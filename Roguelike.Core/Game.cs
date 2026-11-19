@@ -2,7 +2,7 @@
 
 public class Game(IBoardPrinter boardPrinter, IInputReader inputReader)
 {
-    public Player player = new(new Position(8, 8));
+    private Player player = new(new Position(8, 8));
     private Board board = new();
     private Direction direction;
 
@@ -13,7 +13,7 @@ public class Game(IBoardPrinter boardPrinter, IInputReader inputReader)
             boardPrinter.Print(board.board, player);
 
             direction = inputReader.ReadDirection(direction);
-            player.MoveTo(player.NextPos(direction));
+            player.MoveTo(direction);
         }
     }
 }
