@@ -2,11 +2,11 @@
 
 public class Game
 {
-    private IBoardPrinter boardPrinter;
-    private IInputReader inputReader;
-    private Player player = new(new Position(8, 8));
-    private Board board = new();
-    private Enemy goblin;
+    private readonly IBoardPrinter boardPrinter;
+    private readonly IInputReader inputReader;
+    private readonly Player player = new(new Position(8, 8));
+    private readonly Board board = new();
+    private readonly Enemy goblin;
     private Direction direction;
 
     public Game(IBoardPrinter boardPrinter, IInputReader inputReader)

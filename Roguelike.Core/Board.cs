@@ -1,13 +1,11 @@
-﻿using System.Reflection;
-
-namespace Roguelike.Core;
+﻿namespace Roguelike.Core;
 
 public class Board
 {
     private const int Size = 16;
     private readonly Random random = new();
 
-    public Cell[,] board = new Cell[Size, Size];
+    public Cell[,] board { get; } = new Cell[Size, Size];
 
     public Board()
     {

@@ -4,7 +4,7 @@ public class Player(Position startPosition)
 {
     public Position Position { get; private set; } = startPosition;
 
-    private Position NextPos(Direction direction) =>
+    public Position NextPos(Direction direction) =>
         direction switch
         {
             Direction.Up => Position with { Row = Position.Row - 1 },
