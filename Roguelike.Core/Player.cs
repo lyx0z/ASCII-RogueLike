@@ -19,7 +19,6 @@ public class Player(Position startPosition)
     public void MoveTo(Direction direction)
     {
         Position = NextPos(direction);
-        ;
     }
 
     public void TakeDamage(int amount)
