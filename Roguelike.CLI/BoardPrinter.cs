@@ -5,7 +5,7 @@ namespace Roguelike.CLI;
 
 public class BoardPrinter : IBoardPrinter
 {
-    public void Print(Cell[,] board, Player player)
+    public void Print(Cell[,] board, Player player, Enemy enemy)
     {
         Console.OutputEncoding = Encoding.UTF8;
         Console.Clear();
@@ -15,9 +15,17 @@ public class BoardPrinter : IBoardPrinter
             for (var col = 0; col < board.GetLength(1); col++)
             {
                 if (player.Position.Row == row && player.Position.Col == col)
+                {
                     Console.Write(ChooseSymbol(Cell.Player));
+                }
+                else if (enemy.Position.Row == row && enemy.Position.Col == col)
+                {
+                    Console.Write(ChooseSymbol(enemy.Name));
+                }
                 else
+                {
                     Console.Write(ChooseSymbol(board[row, col]));
+                }
             }
 
             Console.WriteLine();
@@ -30,6 +38,7 @@ public class BoardPrinter : IBoardPrinter
             Cell.Wall => "＃",
             Cell.Floor => "・",
             Cell.Player => "忍",
+            Cell.Goblin => "Ｇ",
             _ => "？",
         };
 }
