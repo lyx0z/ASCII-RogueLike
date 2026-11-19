@@ -1,13 +1,19 @@
 ﻿namespace Roguelike.Core;
 
-public class Game(IBoardPrinter boardPrinter)
+public class Game(IBoardPrinter boardPrinter, IInputReader inputReader)
 {
     public Player player = new(new Position(8, 8));
     private Board board = new();
+    private Direction direction;
 
     public void Start()
     {
-        board.board[player.Position.Row, player.Position.Col] = Cell.Player;
-        boardPrinter.Print(board.board, player);
+        while (true)
+        {
+            boardPrinter.Print(board.board, player);
+
+            direction = inputReader.ReadDirection(direction);
+            player.MoveTo(player.NextPos(direction));
+        }
     }
 }

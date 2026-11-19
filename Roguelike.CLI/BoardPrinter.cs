@@ -14,7 +14,10 @@ public class BoardPrinter : IBoardPrinter
         {
             for (var col = 0; col < board.GetLength(1); col++)
             {
-                Console.Write(ChooseSymbol(board[row, col]));
+                if (player.Position.Row == row && player.Position.Col == col)
+                    Console.Write(ChooseSymbol(Cell.Player));
+                else
+                    Console.Write(ChooseSymbol(board[row, col]));
             }
 
             Console.WriteLine();
