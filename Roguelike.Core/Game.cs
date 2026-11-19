@@ -26,7 +26,7 @@ public class Game
             var nextPosition = player.NextPos(direction);
             if (board.board[nextPosition.Row, nextPosition.Col] != Cell.Wall)
             {
-                player.MoveTo(nextPosition);
+                player.MoveTo(direction);
             }
         }
     }
