@@ -4,7 +4,6 @@ public class Player(Position startPosition)
 {
     public Position Position { get; private set; } = startPosition;
     public int Hp { get; private set; } = 30;
-    public int maxHp { get; } = 30;
     public int Attack { get; } = 5;
 
     public Position NextPos(Direction direction) =>
