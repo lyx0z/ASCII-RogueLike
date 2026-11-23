@@ -92,5 +92,6 @@ public class BoardPrinter : IBoardPrinter
         }
         Console.WriteLine(gameOverText);
         Console.WriteLine("   Press SPACE to continue");
+        Console.ResetColor();
     }
 }

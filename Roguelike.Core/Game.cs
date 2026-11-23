@@ -4,9 +4,9 @@ public class Game
 {
     private readonly IBoardPrinter boardPrinter;
     private readonly IInputReader inputReader;
-    private readonly Player player = new(new Position(8, 8));
-    private readonly Board board = new();
-    private readonly Enemy yurei;
+    private Player player = null!;
+    private Board board = null!;
+    private Enemy yurei = null!;
     private Direction direction;
     private bool running = true;
 
@@ -14,7 +14,15 @@ public class Game
     {
         this.boardPrinter = boardPrinter;
         this.inputReader = inputReader;
-        yurei = new Enemy(Cell.Yurei, board.PickFreeCell(), 11, 50); //high attack to test death
+        NewGame();
+    }
+
+    private void NewGame()
+    {
+        player = new Player(new Position(8, 8));
+        board = new Board();
+        yurei = new Enemy(Cell.Yurei, board.PickFreeCell(), 11, 3);
+        direction = default;
     }
 
     public void Start()
@@ -46,11 +54,14 @@ public class Game
 
     private void GameOver()
     {
-        running = false;
         boardPrinter.PrintGameOver();
         if (inputReader.ReadKeyGameOver())
         {
-            Start();
+            NewGame();
+        }
+        else
+        {
+            running = false;
         }
     }
 }
