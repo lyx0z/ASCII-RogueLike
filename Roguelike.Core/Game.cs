@@ -9,6 +9,7 @@ public class Game
     private Enemy yurei = null!;
     private Direction direction;
     private bool running = true;
+    private Item item = null!;
 
     public Game(IBoardPrinter boardPrinter, IInputReader inputReader)
     {
@@ -21,15 +22,16 @@ public class Game
     {
         player = new Player(new Position(8, 8));
         board = new Board();
-        yurei = new Enemy(Cell.Yurei, board.PickFreeCell(), 11, 3);
+        yurei = new Enemy(Cell.Yurei, board.PickFreeCell(), 11, 4);
         direction = default;
+        item = new Item(Cell.HealingGourd, board.PickFreeCell());
     }
 
     public void Start()
     {
         while (running)
         {
-            boardPrinter.Print(board.board, player, yurei);
+            boardPrinter.Print(board.board, player, yurei, item);
 
             if (player.Hp <= 0)
             {
@@ -48,6 +50,12 @@ public class Game
             else if (board.board[nextPosition.Row, nextPosition.Col] != Cell.Wall)
             {
                 player.MoveTo(direction);
+            }
+
+            if (!item.PickedUp && player.Position == item.Position)
+            {
+                player.Heal(item.Healing);
+                item.PickUp();
             }
         }
     }

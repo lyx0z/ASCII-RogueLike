@@ -3,6 +3,7 @@
 public class Player(Position startPosition)
 {
     public Position Position { get; private set; } = startPosition;
+    public int MaxHp { get; } = 30;
     public int Hp { get; private set; } = 30;
     public int Attack { get; } = 5;
 
@@ -24,5 +25,17 @@ public class Player(Position startPosition)
     public void TakeDamage(int amount)
     {
         Hp -= amount;
+    }
+
+    public void Heal(int amount)
+    {
+        if (!(Hp + amount > MaxHp))
+        {
+            Hp += amount;
+        }
+        else
+        {
+            Hp = MaxHp;
+        }
     }
 }
