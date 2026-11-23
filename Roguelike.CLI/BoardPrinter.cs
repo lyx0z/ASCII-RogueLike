@@ -9,16 +9,21 @@ public class BoardPrinter : IBoardPrinter
     {
         Console.OutputEncoding = Encoding.UTF8;
         Console.Clear();
+        Console.ForegroundColor = ConsoleColor.White;
 
         for (var row = 0; row < board.GetLength(0); row++)
         {
             for (var col = 0; col < board.GetLength(1); col++)
             {
-                if (player.Position.Row == row && player.Position.Col == col)
+                var isHere = new Position(row, col);
+
+                if (player.Position == isHere)
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.Write(ChooseSymbol(Cell.Player));
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
-                else if (enemy.Position.Row == row && enemy.Position.Col == col)
+                else if (enemy.Position == isHere && !enemy.IsDead())
                 {
                     Console.Write(ChooseSymbol(enemy.Name));
                 }
@@ -30,6 +35,7 @@ public class BoardPrinter : IBoardPrinter
 
             Console.WriteLine();
         }
+        PrintStats(player);
     }
 
     private static string ChooseSymbol(Cell cell) =>
@@ -38,7 +44,54 @@ public class BoardPrinter : IBoardPrinter
             Cell.Wall => "＃",
             Cell.Floor => "・",
             Cell.Player => "忍",
-            Cell.Goblin => "Ｇ",
+            Cell.Yurei => "Ｙ",
             _ => "？",
         };
+
+    private static void PrintStats(Player player)
+    {
+        Console.WriteLine(
+            $"""
+            ╔══════════════════════════════╗
+            ║ STATS                        ║
+            ╟──────────────────────────────╢
+            ║ HP     {player.Hp, -22}║
+            ║ Attack {player.Attack, -22}║
+            ╚══════════════════════════════╝
+            """
+        );
+    }
+
+    public void PrintGameOver()
+    {
+        var gameOverText = """
+            ████████████████████████████
+                  ████
+                 ████            ████
+                ███████████      ████     ▄██
+               ████     ████     ████  ▄███▀
+              ████  ▄   ████     ████▄███▀
+             ████  ▀██▄████      ██████▀
+            ███▀     █████       ████
+                    ████         ████        ██
+                   ████          ████        ██
+                 ▄████           ██████████████
+               ▄███▀
+
+                  D   E   A   T   H
+            """;
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        for (var i = 0; i < 4; i++)
+        {
+            Console.Clear();
+            Console.WriteLine(gameOverText);
+            Thread.Sleep(400);
+
+            Console.Clear();
+            Thread.Sleep(200);
+        }
+        Console.WriteLine(gameOverText);
+        Console.WriteLine("   Press SPACE to continue");
+        Console.ResetColor();
+    }
 }

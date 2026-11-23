@@ -1,6 +1,6 @@
 ﻿namespace Roguelike.CLI;
 
-using Roguelike.Core;
+using Core;
 
 public class ConsoleInputReader : IInputReader
 {
@@ -16,5 +16,10 @@ public class ConsoleInputReader : IInputReader
             ConsoleKey.D or ConsoleKey.RightArrow => Direction.Right,
             _ => currentDirection,
         };
+    }
+
+    public bool ReadKeyGameOver()
+    {
+        return Console.ReadKey(true).Key == ConsoleKey.Spacebar;
     }
 }
