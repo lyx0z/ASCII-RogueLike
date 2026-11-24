@@ -5,7 +5,7 @@ namespace Roguelike.CLI;
 
 public class BoardPrinter : IBoardPrinter
 {
-    public void Print(Cell[,] board, Player player, Enemy enemy, Item item)
+    public void Print(Cell[,] board, Player player, Enemy enemy, Item item, ActionLog log)
     {
         Console.OutputEncoding = Encoding.UTF8;
         Console.Clear();
@@ -42,6 +42,7 @@ public class BoardPrinter : IBoardPrinter
             Console.WriteLine();
         }
         PrintStats(player);
+        PrintLog(log);
     }
 
     private static string ChooseSymbol(Cell cell) =>
@@ -67,6 +68,16 @@ public class BoardPrinter : IBoardPrinter
             ╚══════════════════════════════╝
             """
         );
+    }
+
+    private static void PrintLog(ActionLog log)
+    {
+        Console.WriteLine("╔══════════════════════════════════════════╗");
+        foreach (var message in log.Messages)
+        {
+            Console.WriteLine($"║ {message, -40} ║");
+        }
+        Console.WriteLine("╚══════════════════════════════════════════╝");
     }
 
     public void PrintGameOver()
