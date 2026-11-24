@@ -4,7 +4,7 @@ public class ActionLog
 {
     private const int MaxMessages = 5;
 
-    public List<string> Messages { get; } = new();
+    public List<string> Messages { get; } = [];
 
     public void Add(string message)
     {
