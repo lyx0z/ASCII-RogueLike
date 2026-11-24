@@ -22,8 +22,8 @@ public class Game
 
     private void NewGame()
     {
-        player = new Player(new Position(8, 8));
         board = new Board();
+        player = new Player(PickFreeCell());
         yurei = new Enemy(Cell.Yurei, PickFreeCell(), 11, 4);
         direction = default;
         item = new Item(Cell.HealingGourd, PickFreeCell());
@@ -94,7 +94,9 @@ public class Game
         for (var col = 0; col < board.board.GetLength(1); col++)
         {
             var pos = new Position(row, col);
-            var isTaken = pos == player.Position || (yurei != null && pos == yurei.Position);
+            var isTaken =
+                (player != null && pos == player.Position)
+                || (yurei != null && pos == yurei.Position);
 
             if (board.board[row, col] == Cell.Floor && !isTaken)
             {
