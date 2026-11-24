@@ -6,4 +6,5 @@ public enum Cell
     Floor,
     Player,
     Yurei,
+    HealingGourd,
 }

@@ -22,19 +22,4 @@ public class Board
             }
         }
     }
-
-    public Position PickFreeCell()
-    {
-        var validPositions = new List<Position>();
-        for (var row = 0; row < board.GetLength(0); row++)
-        for (var col = 0; col < board.GetLength(1); col++)
-        {
-            var pos = new Position(row, col);
-            if (board[row, col] == Cell.Floor)
-            {
-                validPositions.Add(pos);
-            }
-        }
-        return validPositions[random.Next(validPositions.Count)];
-    }
 }

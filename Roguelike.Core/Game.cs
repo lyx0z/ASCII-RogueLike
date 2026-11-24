@@ -4,11 +4,13 @@ public class Game
 {
     private readonly IBoardPrinter boardPrinter;
     private readonly IInputReader inputReader;
-    private Player player = null!;
-    private Board board = null!;
-    private Enemy yurei = null!;
+    private Player player;
+    private Board board;
+    private Enemy yurei;
     private Direction direction;
     private bool running = true;
+    private Item item;
+    private readonly Random random = new();
 
     public Game(IBoardPrinter boardPrinter, IInputReader inputReader)
     {
@@ -21,15 +23,16 @@ public class Game
     {
         player = new Player(new Position(8, 8));
         board = new Board();
-        yurei = new Enemy(Cell.Yurei, board.PickFreeCell(), 11, 3);
+        yurei = new Enemy(Cell.Yurei, PickFreeCell(), 11, 4);
         direction = default;
+        item = new Item(Cell.HealingGourd, PickFreeCell());
     }
 
     public void Start()
     {
         while (running)
         {
-            boardPrinter.Print(board.board, player, yurei);
+            boardPrinter.Print(board.board, player, yurei, item);
 
             if (player.Hp <= 0)
             {
@@ -49,6 +52,12 @@ public class Game
             {
                 player.MoveTo(direction);
             }
+
+            if (!item.PickedUp && player.Position == item.Position)
+            {
+                player.Heal(item.Healing);
+                item.PickUp();
+            }
         }
     }
 
@@ -63,5 +72,22 @@ public class Game
         {
             running = false;
         }
+    }
+
+    private Position PickFreeCell()
+    {
+        var validPositions = new List<Position>();
+        for (var row = 0; row < board.board.GetLength(0); row++)
+        for (var col = 0; col < board.board.GetLength(1); col++)
+        {
+            var pos = new Position(row, col);
+            var isTaken = pos == player.Position || (yurei != null && pos == yurei.Position);
+
+            if (board.board[row, col] == Cell.Floor && !isTaken)
+            {
+                validPositions.Add(pos);
+            }
+        }
+        return validPositions[random.Next(validPositions.Count)];
     }
 }
