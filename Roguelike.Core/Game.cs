@@ -11,6 +11,7 @@ public class Game
     private bool running = true;
     private Item item;
     private readonly Random random = new();
+    private ActionLog log;
 
     public Game(IBoardPrinter boardPrinter, IInputReader inputReader)
     {
@@ -26,13 +27,14 @@ public class Game
         yurei = new Enemy(Cell.Yurei, PickFreeCell(), 11, 4);
         direction = default;
         item = new Item(Cell.HealingGourd, PickFreeCell());
+        log = new ActionLog();
     }
 
     public void Start()
     {
         while (running)
         {
-            boardPrinter.Print(board.board, player, yurei, item);
+            boardPrinter.Print(board.board, player, yurei, item, log);
 
             if (player.Hp <= 0)
             {
@@ -46,7 +48,17 @@ public class Game
             if (!yurei.IsDead() && nextPosition == yurei.Position)
             {
                 yurei.TakeDamage(player.Attack);
-                player.TakeDamage(yurei.Attack);
+                log.Add($"You hit the Yurei for {player.Attack} damage");
+
+                if (yurei.IsDead())
+                {
+                    log.Add("You defeated the Yurei!");
+                }
+                else
+                {
+                    player.TakeDamage(yurei.Attack);
+                    log.Add($"The Yurei hits you for {yurei.Attack} damage");
+                }
             }
             else if (board.board[nextPosition.Row, nextPosition.Col] != Cell.Wall)
             {
@@ -57,6 +69,7 @@ public class Game
             {
                 player.Heal(item.Healing);
                 item.PickUp();
+                log.Add($"You drink the gourd and heal {30 - player.Hp} HP");
             }
         }
     }
