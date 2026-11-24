@@ -3,13 +3,9 @@
 public class Player(Position startPosition)
 {
     public Position Position { get; private set; } = startPosition;
-    private int MaxHp => 30;
-    private int hp = 30;
-    public int Hp
-    {
-        get => hp;
-        private set => hp = value > MaxHp ? MaxHp : value;
-    }
+    private const int MaxHp = 30;
+
+    public int Hp { get; private set; } = MaxHp;
     public int Attack => 5;
 
     public Position NextPos(Direction direction) =>
@@ -35,5 +31,9 @@ public class Player(Position startPosition)
     public void Heal(int amount)
     {
         Hp += amount;
+        if (Hp > MaxHp)
+        {
+            Hp = MaxHp;
+        }
     }
 }
