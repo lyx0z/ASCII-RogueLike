@@ -22,9 +22,9 @@ public class Game
 
     private void NewGame()
     {
-        player = new Player(new Position(8, 8));
         board = new Board();
-        yurei = new Enemy(Cell.Yurei, PickFreeCell(), 11, 4);
+        player = new Player(PickFreeCell());
+        yurei = new Enemy(Cell.Yurei, PickFreeCell(), 11, 50);
         direction = default;
         item = new Item(Cell.HealingGourd, PickFreeCell());
         log = new ActionLog();
@@ -67,9 +67,9 @@ public class Game
 
             if (!item.PickedUp && player.Position == item.Position)
             {
-                player.Heal(item.Healing);
+                player.Heal(Item.Healing);
                 item.PickUp();
-                log.Add($"You drink the gourd and heal {30 - player.Hp} HP");
+                log.Add($"You drink the gourd and heal up to {player.Hp} HP");
             }
         }
     }
@@ -94,7 +94,9 @@ public class Game
         for (var col = 0; col < board.board.GetLength(1); col++)
         {
             var pos = new Position(row, col);
-            var isTaken = pos == player.Position || (yurei != null && pos == yurei.Position);
+            var isTaken =
+                (player != null && pos == player.Position)
+                || (yurei != null && pos == yurei.Position);
 
             if (board.board[row, col] == Cell.Floor && !isTaken)
             {
