@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Roguelike.Core;
+﻿namespace Roguelike.Core;
 
 public class Board
 {
