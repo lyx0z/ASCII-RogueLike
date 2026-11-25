@@ -49,8 +49,8 @@ public class Game
 
             if (!yurei.IsDead() && nextPosition == yurei.Position)
             {
-                yurei.TakeDamage(Player.Attack);
-                log.Add($"You hit the Yurei for {Player.Attack} damage");
+                yurei.TakeDamage(player.Attack);
+                log.Add($"You hit the Yurei for {player.Attack} damage");
 
                 if (yurei.IsDead())
                 {
@@ -77,6 +77,14 @@ public class Game
             if (!weapon.PickedUp && player.Position == weapon.Position)
             {
                 weapon.PickUp();
+                var bonus = weapon.Type switch
+                {
+                    Cell.Katana => 4,
+                    Cell.Naginata => 6,
+                    Cell.Sai => 2,
+                    _ => 0,
+                };
+                player.AddAttack(bonus);
                 log.Add($"You picked up a {weapon.Type}!");
             }
         }
@@ -114,18 +122,11 @@ public class Game
         return validPositions[random.Next(validPositions.Count)];
     }
 
-    private Item PickRandomWeapon()
-    {
-        switch (random.Next(1, 4))
+    private Item PickRandomWeapon() =>
+        random.Next(3) switch
         {
-            case 1:
-                break;
-            case 2:
-                return new Item(Cell.Naginata, PickFreeCell());
-            case 3:
-                return new Item(Cell.Sai, PickFreeCell());
-        }
-
-        return new Item(Cell.Katana, PickFreeCell());
-    }
+            0 => new Item(Cell.Naginata, PickFreeCell()),
+            1 => new Item(Cell.Sai, PickFreeCell()),
+            _ => new Item(Cell.Katana, PickFreeCell()),
+        };
 }

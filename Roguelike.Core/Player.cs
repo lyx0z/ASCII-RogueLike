@@ -6,7 +6,7 @@ public class Player(Position startPosition)
     private const int MaxHp = 30;
 
     public int Hp { get; private set; } = MaxHp;
-    public static int Attack = 5;
+    public int Attack { get; private set; } = 5;
 
     public Position NextPos(Direction direction) =>
         direction switch
@@ -21,6 +21,11 @@ public class Player(Position startPosition)
     public void MoveTo(Direction direction)
     {
         Position = NextPos(direction);
+    }
+
+    public void AddAttack(int amount)
+    {
+        Attack += amount;
     }
 
     public void TakeDamage(int amount)

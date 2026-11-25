@@ -80,7 +80,7 @@ public class BoardPrinter : IBoardPrinter
             ║ STATS                        ║
             ╟──────────────────────────────╢
             ║ HP     {player.Hp, -22}║
-            ║ Attack {Player.Attack, -22}║
+            ║ Attack {player.Attack, -22}║
             ╚══════════════════════════════╝
             """
         );
