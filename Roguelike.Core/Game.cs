@@ -24,7 +24,7 @@ public class Game
     {
         board = new Board();
         player = new Player(PickFreeCell());
-        yurei = new Enemy(Cell.Yurei, PickFreeCell(), 11, 4);
+        yurei = new Enemy(Cell.Yurei, PickFreeCell(), 11, 50);
         direction = default;
         item = new Item(Cell.HealingGourd, PickFreeCell());
         log = new ActionLog();
@@ -67,9 +67,9 @@ public class Game
 
             if (!item.PickedUp && player.Position == item.Position)
             {
-                player.Heal(item.Healing);
+                player.Heal(Item.Healing);
                 item.PickUp();
-                log.Add($"You drink the gourd and heal {30 - player.Hp} HP");
+                log.Add($"You drink the gourd and heal up to {player.Hp} HP");
             }
         }
     }

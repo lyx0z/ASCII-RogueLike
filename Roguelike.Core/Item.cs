@@ -5,7 +5,7 @@ public class Item(Cell type, Position position)
     public Cell Type { get; } = type;
     public Position Position { get; } = position;
     public bool PickedUp { get; private set; }
-    public int Healing => 10;
+    public static int Healing => 10;
 
     public void PickUp()
     {
