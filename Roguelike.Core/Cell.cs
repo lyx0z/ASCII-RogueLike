@@ -7,4 +7,7 @@ public enum Cell
     Player,
     Yurei,
     HealingGourd,
+    Katana,
+    Sai,
+    Naginata,
 }
