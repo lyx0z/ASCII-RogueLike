@@ -12,6 +12,7 @@ public class Game
     private Item item;
     private readonly Random random = new();
     private ActionLog log;
+    private Item weapon;
 
     public Game(IBoardPrinter boardPrinter, IInputReader inputReader)
     {
@@ -24,17 +25,18 @@ public class Game
     {
         board = new Board();
         player = new Player(PickFreeCell());
-        yurei = new Enemy(Cell.Yurei, PickFreeCell(), 11, 50);
+        yurei = new Enemy(Cell.Yurei, PickFreeCell(), 11, 3);
         direction = default;
         item = new Item(Cell.HealingGourd, PickFreeCell());
         log = new ActionLog();
+        weapon = PickRandomWeapon();
     }
 
     public void Start()
     {
         while (running)
         {
-            boardPrinter.Print(board.board, player, yurei, item, log);
+            boardPrinter.Print(board.board, player, yurei, item, log, weapon);
 
             if (player.Hp <= 0)
             {
@@ -67,9 +69,23 @@ public class Game
 
             if (!item.PickedUp && player.Position == item.Position)
             {
-                player.Heal(Item.Healing);
                 item.PickUp();
+                player.Heal(Item.Healing);
                 log.Add($"You drink the gourd and heal up to {player.Hp} HP");
+            }
+
+            if (!weapon.PickedUp && player.Position == weapon.Position)
+            {
+                weapon.PickUp();
+                var bonus = weapon.Type switch
+                {
+                    Cell.Katana => 4,
+                    Cell.Naginata => 6,
+                    Cell.Sai => 2,
+                    _ => 0,
+                };
+                player.AddAttack(bonus);
+                log.Add($"You picked up a {weapon.Type}!");
             }
         }
     }
@@ -105,4 +121,12 @@ public class Game
         }
         return validPositions[random.Next(validPositions.Count)];
     }
+
+    private Item PickRandomWeapon() =>
+        random.Next(3) switch
+        {
+            0 => new Item(Cell.Naginata, PickFreeCell()),
+            1 => new Item(Cell.Sai, PickFreeCell()),
+            _ => new Item(Cell.Katana, PickFreeCell()),
+        };
 }
